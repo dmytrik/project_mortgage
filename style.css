@@ -104,7 +104,7 @@ img {
 }
 .mortgage__banks-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 10px;
 }
 .mortgage__banks-btn {
