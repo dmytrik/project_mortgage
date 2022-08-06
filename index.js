@@ -73,8 +73,27 @@ const btnEdit = document.querySelectorAll(".btn-edit");
 btnEdit.forEach((button) => button.addEventListener("click", editBtn));
 
 function editBtn(evt) {
-  console.log(evt.currentTarget.textContent);
+  modal.classList.toggle("is-hidden");
+  const bankId = evt.target.closest(".mortgage__banks-item").dataset.id;
+   let currentBank = banks.find((bank) => bank.id === bankId);
+  // console.log(currentBank);
+  editBank(currentBank)
 }
+
+const editForm = document.querySelector(".mortgage__form");
+console.log(editForm);
+
+function editBank (bank) {
+  editForm.elements.forEach(element => {
+    element.value = bank[element.name]
+} )
+  
+}
+console.dir("aas", editForm) 
+ 
+// TODO: на наступне заняття!!!!!!!!!!
+
+
 
 const btnClose = document.querySelectorAll(".btn-close");
 
@@ -91,9 +110,12 @@ console.log(mortgageItemEl);
 
 const mortgageInfo = document.querySelector(".mortgage__info");
 function takeCurrentBank(e) {
+  if (e.target.nodeName === "BUTTON") {
+   return
+ }
   let currentItem = e.currentTarget.dataset.id;
   let currentBank = banks.find((bank) => bank.id === currentItem);
-  console.log(currentBank);
+
   const { name, interestRate, maxLoan, minPayment, loanTerm } = currentBank;
   const template = `<h2 class="mortgage__title">Loan informations</h2>
   <div class="mortgage__info-box" data-info-box>
