@@ -67,3 +67,17 @@ const renderItem = (({ name, id }, index) =>
   </li>`)
 
 renderList(banks);
+
+// const 
+const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item")
+
+
+
+mortgageItemEl.forEach(li => li.addEventListener('click',takeCurrentBank))
+console.log(mortgageItemEl)
+
+function takeCurrentBank(e) {
+  let currentItem = e.currentTarget.dataset.id
+  let currentBank = banks.find(bank => bank.id === currentItem)
+  console.log(currentBank)
+}
