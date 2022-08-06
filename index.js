@@ -49,39 +49,52 @@ const divRootChildren = `<div class="mortgage__list box__item">
 
 divRoot.insertAdjacentHTML("beforeend", divRootChildren);
 
-const banksListUl = document.createElement('ul');
-banksListUl.classList.add('mortgage__banks-list')
-const divRootChildrenRef = document.querySelector('.mortgage__list')
+const banksListUl = document.createElement("ul");
+banksListUl.classList.add("mortgage__banks-list");
+const divRootChildrenRef = document.querySelector(".mortgage__list");
 
 const renderList = (banks) => {
-  const banksMarkup = banks.map(renderItem).join('');
+  const banksMarkup = banks.map(renderItem).join("");
   banksListUl.insertAdjacentHTML("beforeend", banksMarkup);
-  divRootChildrenRef.append(banksListUl)
-}
+  divRootChildrenRef.append(banksListUl);
+};
 
-const renderItem = (({ name, id }, index) =>
+const renderItem = ({ name, id }, index) =>
   `<li class="mortgage__banks-item" data-id='${id}'>
                 <p class="mortgage__banks-name">${index + 1}. ${name}</p>
-                <button type="button" class="mortgage__banks-btn">Edit</button>
-                <button type="button" class="mortgage__banks-btn">Close</button>
-  </li>`)
+                <button type="button" class="mortgage__banks-btn btn-edit">Edit</button>
+                <button type="button" class="mortgage__banks-btn btn-close">Close</button>
+  </li>`;
 
 renderList(banks);
 
-// const 
-const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item")
+const btnEdit = document.querySelectorAll(".btn-edit");
 
+btnEdit.forEach((button) => button.addEventListener("click", editBtn));
 
+function editBtn(evt) {
+  console.log(evt.currentTarget.textContent);
+}
 
-mortgageItemEl.forEach(li => li.addEventListener('click',takeCurrentBank))
-console.log(mortgageItemEl)
+const btnClose = document.querySelectorAll(".btn-close");
 
-const mortgageInfo = document.querySelector('.mortgage__info')
+btnClose.forEach((button) => button.addEventListener("click", closeBtn));
+
+function closeBtn(evt) {
+  console.log(evt.currentTarget.textContent);
+}
+
+const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item");
+
+mortgageItemEl.forEach((li) => li.addEventListener("click", takeCurrentBank));
+console.log(mortgageItemEl);
+
+const mortgageInfo = document.querySelector(".mortgage__info");
 function takeCurrentBank(e) {
-  let currentItem = e.currentTarget.dataset.id
-  let currentBank = banks.find(bank => bank.id === currentItem)
-  console.log(currentBank)
-  const {name, interestRate, maxLoan, minPayment, loanTerm } = currentBank
+  let currentItem = e.currentTarget.dataset.id;
+  let currentBank = banks.find((bank) => bank.id === currentItem);
+  console.log(currentBank);
+  const { name, interestRate, maxLoan, minPayment, loanTerm } = currentBank;
   const template = `<h2 class="mortgage__title">Loan informations</h2>
   <div class="mortgage__info-box" data-info-box>
     <ul class="mortgage__info-list">
@@ -108,7 +121,6 @@ function takeCurrentBank(e) {
         <p class="mortgage__banks-value info-text">${loanTerm}</p>
       </li>
     </ul>
-    `
-  mortgageInfo.innerHTML = template
-
+    `;
+  mortgageInfo.innerHTML = template;
 }
