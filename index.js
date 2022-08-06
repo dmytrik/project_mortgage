@@ -76,8 +76,39 @@ const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item")
 mortgageItemEl.forEach(li => li.addEventListener('click',takeCurrentBank))
 console.log(mortgageItemEl)
 
+const mortgageInfo = document.querySelector('.mortgage__info')
 function takeCurrentBank(e) {
   let currentItem = e.currentTarget.dataset.id
   let currentBank = banks.find(bank => bank.id === currentItem)
   console.log(currentBank)
+  const {name, interestRate, maxLoan, minPayment, loanTerm } = currentBank
+  const template = `<h2 class="mortgage__title">Loan informations</h2>
+  <div class="mortgage__info-box" data-info-box>
+    <ul class="mortgage__info-list">
+      <li class="mortgage__info-item">
+        <p class="mortgage__banks-property info-text">Bank: </p>
+        <p class="mortgage__banks-value info-text">${name}</p>
+      </li>
+      <li class="mortgage__info-item">
+        <p class="mortgage__banks-property info-text">
+          Interest Rate, % : 
+        </p>
+        <p class="mortgage__banks-value info-text">${interestRate}</p>
+      </li>
+      <li class="mortgage__info-item">
+        <p class="mortgage__banks-property info-text">Mortgage size, $: </p>
+        <p class="mortgage__banks-value info-text">${maxLoan}</p>
+      </li>
+      <li class="mortgage__info-item">
+        <p class="mortgage__banks-property info-text">min Payment, $ :</p>
+        <p class="mortgage__banks-value info-text">${minPayment}</p>
+      </li>
+      <li class="mortgage__info-item">
+        <p class="mortgage__banks-property info-text">loan Term, month :</p>
+        <p class="mortgage__banks-value info-text">${loanTerm}</p>
+      </li>
+    </ul>
+    `
+  mortgageInfo.innerHTML = template
+
 }
