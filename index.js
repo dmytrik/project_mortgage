@@ -20,6 +20,7 @@ const banks = [
 const newBank = document.querySelector("[data-creat-bank]");
 const modal = document.querySelector("[data-backdrop]");
 const btnCloseModal = document.querySelector("[ data-close-modal]");
+const editForm = document.querySelector(".mortgage__form");
 
 // newBank.addEventListener("click", openModal);
 modal.addEventListener("click", closeModal);
@@ -38,7 +39,6 @@ function closeModal(event) {
 }
 
 const divRoot = document.querySelector("#root");
-console.log(divRoot);
 
 const divRootChildren = `<div class="mortgage__list box__item">
 <h2 class="mortgage__title" data-title="lists-title">List of banks</h2>
@@ -62,8 +62,10 @@ const renderList = (banks) => {
 const renderItem = ({ name, id }, index) =>
   `<li class="mortgage__banks-item" data-id='${id}'>
                 <p class="mortgage__banks-name">${index + 1}. ${name}</p>
-                <button type="button" class="mortgage__banks-btn btn-edit">Edit</button>
-                <button type="button" class="mortgage__banks-btn btn-close">Close</button>
+                <ul class = 'mortgage__banks-btn-box'>
+                  <li><button type="button" class="mortgage__banks-btn btn-edit">Edit</button></li>
+                  <li><button type="button" class="mortgage__banks-btn btn-close">Close</button></li>
+                </ul>
   </li>`;
 
 renderList(banks);
@@ -75,25 +77,17 @@ btnEdit.forEach((button) => button.addEventListener("click", editBtn));
 function editBtn(evt) {
   modal.classList.toggle("is-hidden");
   const bankId = evt.target.closest(".mortgage__banks-item").dataset.id;
-   let currentBank = banks.find((bank) => bank.id === bankId);
-  // console.log(currentBank);
-  editBank(currentBank)
+  let currentBank = banks.find((bank) => bank.id === bankId);
+  editBank(currentBank);
 }
 
-const editForm = document.querySelector(".mortgage__form");
-console.log(editForm);
+function editBank(bank) {
+  console.log(bank);
 
-function editBank (bank) {
-  editForm.elements.forEach(element => {
-    element.value = bank[element.name]
-} )
-  
+  console.log(editForm.elements);
 }
-console.dir("aas", editForm) 
- 
+
 // TODO: на наступне заняття!!!!!!!!!!
-
-
 
 const btnClose = document.querySelectorAll(".btn-close");
 
@@ -106,13 +100,12 @@ function closeBtn(evt) {
 const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item");
 
 mortgageItemEl.forEach((li) => li.addEventListener("click", takeCurrentBank));
-console.log(mortgageItemEl);
 
 const mortgageInfo = document.querySelector(".mortgage__info");
 function takeCurrentBank(e) {
   if (e.target.nodeName === "BUTTON") {
-   return
- }
+    return;
+  }
   let currentItem = e.currentTarget.dataset.id;
   let currentBank = banks.find((bank) => bank.id === currentItem);
 
@@ -146,3 +139,7 @@ function takeCurrentBank(e) {
     `;
   mortgageInfo.innerHTML = template;
 }
+
+// for (const key in bank) {
+//   editForm.elements[key] ? (editForm.elements[key].value = bank[key]) : false;
+// }

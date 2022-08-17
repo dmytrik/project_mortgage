@@ -85,7 +85,7 @@ img {
 }
 .mortgage__banks-item {
   width: 400px;
-  padding: 20px 30px;
+  padding: 20px 15px;
   border: 1px solid #ffffff;
   border-radius: 16px;
   font-family: "Mark OT";
@@ -95,12 +95,17 @@ img {
   line-height: 23px;
 }
 .mortgage__banks-item:not(:first-child) {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .mortgage__banks-item:hover {
   background-color: #fff;
   color: #222222;
   cursor: pointer;
+}
+.mortgage__banks-btn-box {
+  display: flex;
+  justify-content: flex-end;
+  transform: translateY(190%);
 }
 .mortgage__banks-buttons {
   display: flex;
