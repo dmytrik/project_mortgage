@@ -133,14 +133,25 @@ function closeBtn(evt) {
 
 const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item");
 
-mortgageItemEl.forEach((li) => li.addEventListener("click", takeCurrentBank));
+banksListUl.addEventListener('click', (e) => {
+  if(e.target.nodeName === 'UL') return
+  if(e.target.closest('.mortgage__banks-item')) {
+    if (e.target.nodeName === "BUTTON") {
+      return;
+    }
+    takeCurrentBank(e)
+  }
+})
+
+// mortgageItemEl.forEach((li) => li.addEventListener("click", takeCurrentBank));
 
 const mortgageInfo = document.querySelector(".mortgage__info");
 function takeCurrentBank(e) {
+  console.log(e.target.dataset.id)
   if (e.target.nodeName === "BUTTON") {
     return;
   }
-  let currentItem = e.currentTarget.dataset.id;
+  let currentItem = e.target.dataset.id;
   let currentBank = banks.find((bank) => bank.id === currentItem);
 
   const { name, interestRate, maxLoan, minPayment, loanTerm } = currentBank;
