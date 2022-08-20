@@ -22,6 +22,7 @@ const modal = document.querySelector("[data-backdrop]");
 const btnCloseModal = document.querySelector("[ data-close-modal]");
 const editForm = document.querySelector(".mortgage__form");
 let currentBank = {};
+
 // newBank.addEventListener("click", openModal);
 modal.addEventListener("click", closeModal);
 btnCloseModal.addEventListener("click", closeModal);
@@ -45,10 +46,11 @@ const divRootChildren = `<div class="mortgage__list box__item">
 </div>
 <div class="mortgage__info box__item">
 <h2 class="mortgage__title">Loan informations</h2>
+<div class="mortgage__info-box" data-info-box></div>
 </div>`;
 
 divRoot.insertAdjacentHTML("beforeend", divRootChildren);
-
+const mortgageInfoBox = document.querySelector(".mortgage__info-box");
 const banksListUl = document.createElement("ul");
 banksListUl.classList.add("mortgage__banks-list");
 const divRootChildrenRef = document.querySelector(".mortgage__list");
@@ -120,39 +122,30 @@ function clearBanks() {
   
 }
 
-
-// TODO: на наступне заняття!!!!!!!!!!
-
-const btnClose = document.querySelectorAll(".btn-close");
-
-btnClose.forEach((button) => button.addEventListener("click", closeBtn));
-
-function closeBtn(evt) {
-  console.log(evt.currentTarget.textContent);
-}
-
 const mortgageItemEl = document.querySelectorAll(".mortgage__banks-item");
 
 banksListUl.addEventListener('click', (e) => {
-  const id = e.target.dataset.id
-  if(e.target.nodeName === 'UL') return
-  if(e.target.closest('.mortgage__banks-item')) {
-    if (e.target.nodeName === "BUTTON") {
-      return;
-    }
-    takeCurrentBank(id)
+  const id = e.target.closest('.mortgage__banks-item').dataset.id
+  let currentBank = banks.find((bank) => bank.id === id);
+  if (e.target.nodeName === 'UL') return
+  if (e.target.closest('.btn-close')) {
+    banks = banks.filter(bank => bank.id !== id);
+    renderList(banks);
+    console.log(mortgageInfo);
+    mortgageInfoBox.innerHTML = '';
+    return
   }
+  if(e.target.closest('.mortgage__banks-item')) {
+     takeCurrentBank(currentBank)
+  }
+  
 })
 
-// mortgageItemEl.forEach((li) => li.addEventListener("click", takeCurrentBank));
+const mortgageInfo = document.querySelector(".mortgage__info-box");
 
-const mortgageInfo = document.querySelector(".mortgage__info");
-function takeCurrentBank(id) {
-  let currentBank = banks.find((bank) => bank.id === id);
-
-  const { name, interestRate, maxLoan, minPayment, loanTerm } = currentBank;
-  const template = `<h2 class="mortgage__title">Loan informations</h2>
-  <div class="mortgage__info-box" data-info-box>
+function takeCurrentBank(bank) {
+  const { id, name, interestRate, maxLoan, minPayment, loanTerm } = bank;
+  const template = `
     <ul class="mortgage__info-list">
       <li class="mortgage__info-item">
         <p class="mortgage__banks-property info-text">Bank: </p>
@@ -178,7 +171,6 @@ function takeCurrentBank(id) {
       </li>
     </ul>
     `;
-  mortgageInfo.innerHTML = template;
+ mortgageInfo.innerHTML = template;
 }
-
 
