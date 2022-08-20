@@ -1,4 +1,4 @@
-const banks = [
+let banks = [
   {
     id: "435tr34wrt",
     name: "Mono",
@@ -21,7 +21,7 @@ const newBank = document.querySelector("[data-creat-bank]");
 const modal = document.querySelector("[data-backdrop]");
 const btnCloseModal = document.querySelector("[ data-close-modal]");
 const editForm = document.querySelector(".mortgage__form");
-
+let currentBank = {};
 // newBank.addEventListener("click", openModal);
 modal.addEventListener("click", closeModal);
 btnCloseModal.addEventListener("click", closeModal);
@@ -54,6 +54,7 @@ banksListUl.classList.add("mortgage__banks-list");
 const divRootChildrenRef = document.querySelector(".mortgage__list");
 
 const renderList = (banks) => {
+  banksListUl.innerHTML = '';
   const banksMarkup = banks.map(renderItem).join("");
   banksListUl.insertAdjacentHTML("beforeend", banksMarkup);
   divRootChildrenRef.append(banksListUl);
@@ -71,21 +72,54 @@ const renderItem = ({ name, id }, index) =>
 renderList(banks);
 
 const btnEdit = document.querySelectorAll(".btn-edit");
-
 btnEdit.forEach((button) => button.addEventListener("click", editBtn));
+
+
 
 function editBtn(evt) {
   modal.classList.toggle("is-hidden");
   const bankId = evt.target.closest(".mortgage__banks-item").dataset.id;
-  let currentBank = banks.find((bank) => bank.id === bankId);
+  currentBank = banks.find((bank) => bank.id === bankId);
   editBank(currentBank);
 }
 
 function editBank(bank) {
   console.log(bank);
-
-  console.log(editForm.elements);
+  const { elements } = editForm;
+  console.log(elements);
+  for (const key in bank) {
+  editForm.elements[key] ? (editForm.elements[key].value = bank[key]) : false;
+  }
+  
 }
+
+editForm.addEventListener('submit', getChangedFormValue);
+
+function getChangedFormValue(event) {
+  event.preventDefault();
+  modal.classList.toggle("is-hidden");
+  for (const key in currentBank) {
+    editForm.elements[key] ? ( currentBank[key] = editForm.elements[key].value ) : false;
+  }
+  console.log(currentBank);
+
+  banks.forEach(bank => {
+    if (bank.id === currentBank.id) {
+      for (const key in currentBank) {
+        bank[key] = currentBank[key];
+        }
+      }
+  })
+  console.log(banks);
+  clearBanks();
+  renderList(banks);
+
+}
+
+function clearBanks() {
+  
+}
+
 
 // TODO: на наступне заняття!!!!!!!!!!
 
@@ -140,6 +174,4 @@ function takeCurrentBank(e) {
   mortgageInfo.innerHTML = template;
 }
 
-// for (const key in bank) {
-//   editForm.elements[key] ? (editForm.elements[key].value = bank[key]) : false;
-// }
+
